@@ -18,7 +18,6 @@ import java.util.List;
 
 @Tag(name = "Fire station API")
 @RestController
-@RequestMapping("/firestation")
 public class FireStationController {
 
     private final FireStationService fireStationService;
@@ -36,7 +35,7 @@ public class FireStationController {
             @ApiResponse(responseCode = "400", description = "Fire station with specified number and address already exists.",
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })
-    @PostMapping
+    @PostMapping("/firestation")
     public String createFireStation(@RequestBody @Valid FireStation fireStation) {
         return fireStationService.createFireStation(fireStation);
     }
@@ -48,7 +47,7 @@ public class FireStationController {
             @ApiResponse(responseCode = "404", description = "Fire station with specified lastname and firstname was not found.",
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })
-    @PutMapping
+    @PutMapping("/firestation")
     public String updateFireStation(@RequestBody @Valid FireStation fireStation) {
         return fireStationService.updateFireStation(fireStation);
     }
@@ -60,7 +59,7 @@ public class FireStationController {
             @ApiResponse(responseCode = "404", description = "Fire station with specified number or address was not found.",
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })
-    @DeleteMapping
+    @DeleteMapping("/firestation")
     public String deleteFireStation(@RequestBody @Valid FireStation fireStation) {
         return fireStationService.deleteFireStation(fireStation);
     }
