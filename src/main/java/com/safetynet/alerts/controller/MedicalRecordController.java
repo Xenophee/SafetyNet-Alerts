@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,7 @@ public class MedicalRecordController {
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })
     @PostMapping
-    public String createMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
+    public String createMedicalRecord(@RequestBody @Valid MedicalRecord medicalRecord) {
         return medicalRecordService.createMedicalRecord(medicalRecord);
     }
 
@@ -43,7 +44,7 @@ public class MedicalRecordController {
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })
     @PutMapping
-    public String updateMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
+    public String updateMedicalRecord(@RequestBody @Valid MedicalRecord medicalRecord) {
         return medicalRecordService.updateMedicalRecord(medicalRecord);
     }
 
@@ -55,7 +56,7 @@ public class MedicalRecordController {
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })
     @DeleteMapping
-    public String deleteMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
+    public String deleteMedicalRecord(@RequestBody @Valid MedicalRecord medicalRecord) {
         return medicalRecordService.deleteMedicalRecord(medicalRecord);
     }
 }
