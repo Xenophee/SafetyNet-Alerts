@@ -25,38 +25,38 @@ public class MedicalRecordController {
         this.medicalRecordService = medicalRecordService;
     }
 
-    @Operation(summary = "Creates a medical record", description = "Creates a medical record with a lastname, firstname, birthdate, and medications.")
+    @Operation(summary = "Creates a medical record", description = "Creates a medical record with a lastName, firstName, birthdate, and medications.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Medical record has been created"),
-            @ApiResponse(responseCode = "400", description = "Medical record with specified lastname and firstname already exists.",
+            @ApiResponse(responseCode = "409", description = "Medical record with specified lastName and firstName already exists.",
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })
     @PostMapping
-    public String createMedicalRecord(@RequestBody @Valid MedicalRecord medicalRecord) {
-        return medicalRecordService.createMedicalRecord(medicalRecord);
+    public String create(@RequestBody @Valid MedicalRecord medicalRecord) {
+        return medicalRecordService.create(medicalRecord);
     }
 
 
-    @Operation(summary = "Updates a medical record", description = "Updates a medical record by the lastname and the firstname.")
+    @Operation(summary = "Updates a medical record", description = "Updates a medical record by the lastName and the firstName.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Medical record has been updated"),
-            @ApiResponse(responseCode = "404", description = "Medical record with specified lastname and firstname was not found.",
+            @ApiResponse(responseCode = "404", description = "Medical record with specified lastName and firstName was not found.",
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })
     @PutMapping
-    public String updateMedicalRecord(@RequestBody @Valid MedicalRecord medicalRecord) {
-        return medicalRecordService.updateMedicalRecord(medicalRecord);
+    public String update(@RequestBody @Valid MedicalRecord medicalRecord) {
+        return medicalRecordService.update(medicalRecord);
     }
 
 
-    @Operation(summary = "Deletes a medical record", description = "Deletes a medical record by the lastname and the firstname.")
+    @Operation(summary = "Deletes a medical record", description = "Deletes a medical record by the lastName and the firstName.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Medical record has been deleted"),
-            @ApiResponse(responseCode = "404", description = "Medical record with specified lastname and firstname was not found.",
+            @ApiResponse(responseCode = "404", description = "Medical record with specified lastName and firstName was not found.",
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })
     @DeleteMapping
-    public String deleteMedicalRecord(@RequestBody @Valid MedicalRecord medicalRecord) {
-        return medicalRecordService.deleteMedicalRecord(medicalRecord);
+    public String delete(@RequestBody @Valid MedicalRecord medicalRecord) {
+        return medicalRecordService.delete(medicalRecord);
     }
 }

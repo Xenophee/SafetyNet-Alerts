@@ -1,6 +1,7 @@
 package com.safetynet.alerts.controller;
 
-import com.safetynet.alerts.exception.JsonFileReadException;
+import com.safetynet.alerts.dto.ChildInfoDTO;
+import com.safetynet.alerts.dto.PersonInfoDTO;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.PersonService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,77 +30,77 @@ public class PersonController {
     }
 
 
-    @Operation(summary = "Creates a person", description = "Creates a person with several information : lastname, firstname, address, city, zip, phone, email.")
+    @Operation(summary = "Creates a person", description = "Creates a person with several information : lastName, firstName, address, city, zip, phone, email.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Person has been created"),
-            @ApiResponse(responseCode = "400", description = "Person with specified lastname and firstname already exists.",
+            @ApiResponse(responseCode = "409", description = "Person with specified lastName and firstName already exists.",
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })
     @PostMapping("/person")
-    public String createPerson(@RequestBody @Valid Person person) {
-        return personService.createPerson(person);
+    public String create(@RequestBody @Valid Person person) {
+        return personService.create(person);
     }
 
 
-    @Operation(summary = "Updates a person", description = "Updates a person's information by lastname and firstname")
+    @Operation(summary = "Updates a person", description = "Updates a person's information by lastName and firstName")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Person has been updated"),
-            @ApiResponse(responseCode = "404", description = "Person with specified lastname and firstname was not found.",
+            @ApiResponse(responseCode = "404", description = "Person with specified lastName and firstName was not found.",
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })
     @PutMapping("/person")
-    public String updatePerson(@RequestBody @Valid Person person) {
-        return personService.updatePerson(person);
+    public String update(@RequestBody @Valid Person person) {
+        return personService.update(person);
     }
 
 
-    @Operation(summary = "Deletes a person", description = "Deletes a person by lastname and firstname")
+    @Operation(summary = "Deletes a person", description = "Deletes a person by lastName and firstName")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Person has been deleted"),
-            @ApiResponse(responseCode = "404", description = "Person with specified lastname and firstname was not found.",
+            @ApiResponse(responseCode = "404", description = "Person with specified lastName and firstName was not found.",
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })
     @DeleteMapping("/person")
-    public String deletePerson(@RequestBody @Valid Person person) {
-        return personService.deletePerson(person);
+    public String delete(@RequestBody @Valid Person person) {
+        return personService.delete(person);
     }
 
 
-    @Operation(summary = "Get all information of a person by his lastname", description = "Get all information of a person by his lastname. The information contains the lastname, firstname, address, age, email. and his medical record. Can return multiple persons with the same lastname.")
+    @Operation(summary = "Get all information of a person by his lastName", description = "Get all information of a person by his lastName. The information contains the lastName, firstName, address, age, email. and his medical record. Can return multiple persons with the same lastName.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "List of information for the specified lastname.",
-                    content = {@Content(schema = @Schema(implementation = Person.class))}),
-            @ApiResponse(responseCode = "404", description = "Specified lastname was not found.",
+            @ApiResponse(responseCode = "200", description = "List of information for the specified lastName.",
+                    content = {@Content(schema = @Schema(implementation = PersonInfoDTO.class))}),
+            @ApiResponse(responseCode = "404", description = "Specified lastName was not found.",
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })
     @GetMapping("/personinfo")
-    public Object getAPersonByLastname(@RequestParam("lastname") String lastname) {
-        return personService.getAPersonByLastname(lastname);
+    public List<PersonInfoDTO> getPersonByLastname(@RequestParam("lastname") String lastname) {
+        return personService.getPersonByLastname(lastname);
     }
 
 
     @Operation(summary = "Get the set of all person's email by the city", description = "Get the set of all person's email by the city.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Set of all emails for the specified city.",
-                    content = {@Content(schema = @Schema(implementation = List.class))}),
+                    content = {@Content(schema = @Schema(implementation = Set.class))}),
             @ApiResponse(responseCode = "404", description = "Specified city was not found.",
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })
     @GetMapping("/communityemail")
-    public Set<String> getEmails(@RequestParam("city") String city) throws JsonFileReadException {
+    public Set<String> getEmailsByCity(@RequestParam("city") String city) {
         return personService.getEmailsByCity(city);
     }
 
 
-    @Operation(summary = "Get the list of children by the address", description = "Get the list of children by the address. The list contains the children information (lastname, firstname, age) and the other members of the family. The list can be empty.")
+    @Operation(summary = "Get the list of children by the address", description = "Get the list of children by the address. The list contains the children information (lastName, firstName, age) and the other members of the family. The list can be empty.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of children for the specified address. Can be empty.",
-                    content = {@Content(schema = @Schema(implementation = Person.class))}),
+                    content = {@Content(schema = @Schema(implementation = ChildInfoDTO.class))}),
             @ApiResponse(responseCode = "404", description = "Specified address was not found.",
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })
     @GetMapping("/childalert")
-    public Object getChildrenByAddress(@RequestParam("address") String address) {
+    public List<ChildInfoDTO> getChildrenByAddress(@RequestParam("address") String address) {
         return personService.getChildrenByAddress(address);
     }
 
