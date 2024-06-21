@@ -32,9 +32,15 @@ public class GlobalExceptionHandler {
         return errors;
     }
 
-    @ExceptionHandler(CityNotFoundException.class)
+    @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Error handleCityNotFoundException(CityNotFoundException ex) {
+    public Error handleNotFoundException(NotFoundException ex) {
+        return new Error(ex.getMessage());
+    }
+
+    @ExceptionHandler(AlreadyExistException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public Error handleAlreadyExistException(AlreadyExistException ex) {
         return new Error(ex.getMessage());
     }
 }
