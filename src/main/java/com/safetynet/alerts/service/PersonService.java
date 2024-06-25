@@ -23,8 +23,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static com.safetynet.alerts.util.DatesUtil.getAge;
-import static com.safetynet.alerts.util.DatesUtil.isChild;
+import static com.safetynet.alerts.util.BirthdateUtil.getAge;
+import static com.safetynet.alerts.util.BirthdateUtil.isChild;
 
 @Service
 public class PersonService {

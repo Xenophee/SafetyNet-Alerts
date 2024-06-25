@@ -17,7 +17,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static com.safetynet.alerts.util.DatesUtil.*;
+import static com.safetynet.alerts.util.BirthdateUtil.*;
 
 
 @Service
