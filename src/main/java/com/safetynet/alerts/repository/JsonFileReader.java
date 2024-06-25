@@ -22,12 +22,24 @@ public class JsonFileReader {
             mapper.registerModule(new JavaTimeModule());
             data = mapper.readValue(new File(FILE_PATH), Data.class);
         } catch (IOException e) {
+            e.printStackTrace();
             throw new JsonFileReadException();
         }
     }
 
     public Data getData() {
         return data;
+    }
+
+    public void writeData(Data data) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule());
+            mapper.writeValue(new File(FILE_PATH), data);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to write data to JSON file", e);
+        }
     }
 
 }
