@@ -1,6 +1,7 @@
 package com.safetynet.alerts.controller;
 
 import com.safetynet.alerts.dto.ChildInfoDTO;
+import com.safetynet.alerts.dto.PersonIdentifierDTO;
 import com.safetynet.alerts.dto.PersonInfoDTO;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.PersonService;
@@ -12,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,12 +34,12 @@ public class PersonController {
 
     @Operation(summary = "Creates a person", description = "Creates a person with several information : lastName, firstName, address, city, zip, phone, email.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Person has been created"),
+            @ApiResponse(responseCode = "201", description = "Person has been created"),
             @ApiResponse(responseCode = "409", description = "Person with specified lastName and firstName already exists.",
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })
     @PostMapping("/person")
-    public String create(@RequestBody @Valid Person person) {
+    public ResponseEntity<Void> create(@RequestBody @Valid Person person) {
         return personService.create(person);
     }
 
@@ -49,7 +51,7 @@ public class PersonController {
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })
     @PutMapping("/person")
-    public String update(@RequestBody @Valid Person person) {
+    public ResponseEntity<Void> update(@RequestBody @Valid Person person) {
         return personService.update(person);
     }
 
@@ -61,8 +63,8 @@ public class PersonController {
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })
     @DeleteMapping("/person")
-    public String delete(@RequestBody @Valid Person person) {
-        return personService.delete(person);
+    public ResponseEntity<Void> delete(@RequestBody @Valid PersonIdentifierDTO personIdentifier) {
+        return personService.delete(personIdentifier);
     }
 
 

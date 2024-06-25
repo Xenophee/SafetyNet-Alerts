@@ -1,5 +1,6 @@
 package com.safetynet.alerts.controller;
 
+import com.safetynet.alerts.dto.PersonIdentifierDTO;
 import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.service.MedicalRecordService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -27,12 +29,12 @@ public class MedicalRecordController {
 
     @Operation(summary = "Creates a medical record", description = "Creates a medical record with a lastName, firstName, birthdate, and medications.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Medical record has been created"),
+            @ApiResponse(responseCode = "201", description = "Medical record has been created"),
             @ApiResponse(responseCode = "409", description = "Medical record with specified lastName and firstName already exists.",
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })
     @PostMapping
-    public String create(@RequestBody @Valid MedicalRecord medicalRecord) {
+    public ResponseEntity<Void> create(@RequestBody @Valid MedicalRecord medicalRecord) {
         return medicalRecordService.create(medicalRecord);
     }
 
@@ -44,7 +46,7 @@ public class MedicalRecordController {
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })
     @PutMapping
-    public String update(@RequestBody @Valid MedicalRecord medicalRecord) {
+    public ResponseEntity<Void> update(@RequestBody @Valid MedicalRecord medicalRecord) {
         return medicalRecordService.update(medicalRecord);
     }
 
@@ -56,7 +58,7 @@ public class MedicalRecordController {
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })
     @DeleteMapping
-    public String delete(@RequestBody @Valid MedicalRecord medicalRecord) {
-        return medicalRecordService.delete(medicalRecord);
+    public ResponseEntity<Void> delete(@RequestBody @Valid PersonIdentifierDTO personIdentifier) {
+        return medicalRecordService.delete(personIdentifier);
     }
 }

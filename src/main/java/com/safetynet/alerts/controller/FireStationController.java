@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,12 +35,12 @@ public class FireStationController {
 
     @Operation(summary = "Creates a fire station", description = "Creates a fire station with his number and the address.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Fire station has been created"),
+            @ApiResponse(responseCode = "201", description = "Fire station has been created"),
             @ApiResponse(responseCode = "409", description = "Fire station with specified number and address already exists.",
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })
     @PostMapping("/firestation")
-    public String create(@RequestBody @Valid FireStation fireStation) {
+    public ResponseEntity<Void> create(@RequestBody @Valid FireStation fireStation) {
         return fireStationService.create(fireStation);
     }
 
@@ -51,7 +52,7 @@ public class FireStationController {
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })
     @PutMapping("/firestation")
-    public String update(@RequestBody @Valid FireStation fireStation) {
+    public ResponseEntity<Void> update(@RequestBody @Valid FireStation fireStation) {
         return fireStationService.update(fireStation);
     }
 
@@ -63,7 +64,7 @@ public class FireStationController {
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })
     @DeleteMapping("/firestation")
-    public String delete(@RequestBody @Valid FireStation fireStation) {
+    public ResponseEntity<Void> delete(@RequestBody @Valid FireStation fireStation) {
         return fireStationService.delete(fireStation);
     }
 
