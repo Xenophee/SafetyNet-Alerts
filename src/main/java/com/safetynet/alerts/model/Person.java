@@ -9,15 +9,15 @@ import jakarta.validation.constraints.Size;
 public record Person(
 
         @Schema(description = "First name of the person", example = "John")
-        @NotBlank(message = "Firstname is mandatory")
-        @Size(min = 2, max = 50, message = "Firstname must be between 2 and 50 characters")
-        @Pattern(regexp = "^[A-Z][a-z]*(?:[ '-][A-Z][a-z-' ]*)*$", message = "Firstname must start with an uppercase letter and can only contain letters, hyphens, spaces and apostrophes")
+        @NotBlank(message = "First name is mandatory")
+        @Size(min = 2, max = 50, message = "First name must be between 2 and 50 characters")
+        @Pattern(regexp = "^[A-Z][a-z]*(?:[ '-][A-Z][a-z-' ]*)*$", message = "First name must start with an uppercase letter and can only contain letters, hyphens, spaces and apostrophes")
         String firstName,
 
         @Schema(description = "Last name of the person", example = "Doe")
-        @NotBlank(message = "Lastname is mandatory")
-        @Size(min = 2, max = 50, message = "Lastname must be between 2 and 50 characters")
-        @Pattern(regexp = "^[A-Z][a-z]*(?:[ '-][A-Z][a-z-' ]*)*$", message = "Lastname must start with an uppercase letter and can only contain letters, hyphens, spaces and apostrophes")
+        @NotBlank(message = "Last name is mandatory")
+        @Size(min = 2, max = 50, message = "Last name must be between 2 and 50 characters")
+        @Pattern(regexp = "^[A-Z][a-z]*(?:[ '-][A-Z][a-z-' ]*)*$", message = "Last name must start with an uppercase letter and can only contain letters, hyphens, spaces and apostrophes")
         String lastName,
 
         @Schema(description = "Address of the person", example = "123 Main St")
