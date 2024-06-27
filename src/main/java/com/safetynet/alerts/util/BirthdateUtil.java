@@ -7,7 +7,6 @@ public class BirthdateUtil {
 
     public static boolean isChild(LocalDate birthdate) {
         int age = getAge(birthdate);
-
         return age <= 18;
     }
 
