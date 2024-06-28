@@ -1,4 +1,4 @@
 package com.safetynet.alerts.exception;
 
-public record Error(String errorMessage) {
-}
+
+public record Error(String message) { }
