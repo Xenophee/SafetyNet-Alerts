@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.tinylog.Logger;
 
+import java.util.Map;
+
 
 @Tag(name = "Medical record API")
 @RestController
@@ -33,6 +35,8 @@ public class MedicalRecordController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Medical record has been created"),
             @ApiResponse(responseCode = "400", description = "Medical record with specified data are not valid.",
+                    content = {@Content(schema = @Schema(implementation = Map.class))}),
+            @ApiResponse(responseCode = "406", description = "Birthdate format is not valid to parse.",
                     content = {@Content(schema = @Schema(implementation = Error.class))}),
             @ApiResponse(responseCode = "409", description = "Medical record with specified last name and first name already exists.",
                     content = {@Content(schema = @Schema(implementation = Error.class))})
@@ -48,6 +52,8 @@ public class MedicalRecordController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Medical record has been updated"),
             @ApiResponse(responseCode = "400", description = "Medical record with specified data are not valid.",
+                    content = {@Content(schema = @Schema(implementation = Map.class))}),
+            @ApiResponse(responseCode = "406", description = "Birthdate format is not valid to parse.",
                     content = {@Content(schema = @Schema(implementation = Error.class))}),
             @ApiResponse(responseCode = "404", description = "Medical record with specified last name and first name was not found.",
                     content = {@Content(schema = @Schema(implementation = Error.class))})
@@ -63,7 +69,7 @@ public class MedicalRecordController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Medical record has been deleted"),
             @ApiResponse(responseCode = "400", description = "First name and / or last name must be specified.",
-                    content = {@Content(schema = @Schema(implementation = Error.class))}),
+                    content = {@Content(schema = @Schema(implementation = Map.class))}),
             @ApiResponse(responseCode = "404", description = "Medical record with specified last name and first name was not found.",
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })

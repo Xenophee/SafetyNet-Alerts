@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.tinylog.Logger;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -39,7 +40,7 @@ public class FireStationController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Fire station has been created"),
             @ApiResponse(responseCode = "400", description = "Fire station with specified data are not valid.",
-                    content = {@Content(schema = @Schema(implementation = Error.class))}),
+                    content = {@Content(schema = @Schema(implementation = Map.class))}),
             @ApiResponse(responseCode = "409", description = "Fire station with specified number and address already exists.",
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })
@@ -54,7 +55,7 @@ public class FireStationController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Fire station has been updated"),
             @ApiResponse(responseCode = "400", description = "Fire station with specified data are not valid.",
-                    content = {@Content(schema = @Schema(implementation = Error.class))}),
+                    content = {@Content(schema = @Schema(implementation = Map.class))}),
             @ApiResponse(responseCode = "404", description = "Fire station with specified lastName and firstName was not found.",
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })

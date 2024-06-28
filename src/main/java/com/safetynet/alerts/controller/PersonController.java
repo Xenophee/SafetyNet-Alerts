@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.tinylog.Logger;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -38,7 +39,7 @@ public class PersonController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Person has been created"),
             @ApiResponse(responseCode = "400", description = "Person with specified data are not valid.",
-                    content = {@Content(schema = @Schema(implementation = Error.class))}),
+                    content = {@Content(schema = @Schema(implementation = Map.class))}),
             @ApiResponse(responseCode = "409", description = "Person with specified last name and first name already exists.",
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })
@@ -53,7 +54,7 @@ public class PersonController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Person has been updated"),
             @ApiResponse(responseCode = "400", description = "Person with specified data are not valid.",
-                    content = {@Content(schema = @Schema(implementation = Error.class))}),
+                    content = {@Content(schema = @Schema(implementation = Map.class))}),
             @ApiResponse(responseCode = "404", description = "Person with specified last name and first name was not found.",
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })
@@ -68,7 +69,7 @@ public class PersonController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Person has been deleted"),
             @ApiResponse(responseCode = "400", description = "First name and / or last name must be specified.",
-                    content = {@Content(schema = @Schema(implementation = Error.class))}),
+                    content = {@Content(schema = @Schema(implementation = Map.class))}),
             @ApiResponse(responseCode = "404", description = "Person with specified last name and first name was not found.",
                     content = {@Content(schema = @Schema(implementation = Error.class))})
     })
