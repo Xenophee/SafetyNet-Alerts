@@ -192,7 +192,7 @@ public class PersonService {
 
         if (emails.isEmpty()) {
             Logger.error("City: " + city + " not found");
-            throw new NotFoundException("City: " + city + " not found");
+            throw new NotFoundException("City : " + city + " not found");
         }
 
         Logger.info("Successfully got emails by city : {}", city);
@@ -210,6 +210,15 @@ public class PersonService {
         Logger.info("Getting children by address : {}", address);
 
         Data data = jsonFileHandler.getData();
+
+        boolean addressExists = data.persons().stream()
+                .anyMatch(person -> person.address().equalsIgnoreCase(address));
+
+        if (!addressExists) {
+            Logger.error("Address: " + address + " not found");
+            throw new NotFoundException("Address: " + address + " not found");
+        }
+
         Map<Person, MedicalRecord> personMedicalRecordMap = mapPersonsToMedicalRecords(data);
 
         List<ChildInfoDTO> children = data.persons().stream()

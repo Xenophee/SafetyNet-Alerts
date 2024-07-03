@@ -103,7 +103,6 @@ public class FireStationService {
     }
 
 
-    // ! A vérifier avec le souci sur le doublon d'adresse dans le json
     /**
      * Deletes a fire station.
      *
@@ -220,11 +219,6 @@ public class FireStationService {
                         .anyMatch(stationAddress -> stationAddress.equalsIgnoreCase(person.address())))
                 .map(Person::phone)
                 .collect(Collectors.toSet());
-
-        if (phones.isEmpty()) {
-            Logger.error("Station number " + stationNumber + " not found");
-            throw new NotFoundException("Station number " + stationNumber + " not found");
-        }
 
         Logger.info("Successfully got persons phones by station number: {}", stationNumber);
         return phones;
