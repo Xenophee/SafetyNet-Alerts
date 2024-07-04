@@ -3,6 +3,7 @@ package com.safetynet.alerts.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.safetynet.alerts.dto.*;
 import com.safetynet.alerts.exception.AlreadyExistException;
 import com.safetynet.alerts.exception.NotFoundException;
 import com.safetynet.alerts.model.FireStation;
@@ -19,12 +20,16 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 
 
 @WebMvcTest(FireStationController.class)
@@ -152,6 +157,120 @@ public class FireStationControllerTest {
             mockMvc.perform(delete("/firestation")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(nonExistentFireStation)))
+                    .andExpect(status().isNotFound());
+        }
+    }
+
+
+    @Nested
+    @DisplayName("Read Operations")
+    class ReadOperationTest {
+
+        @Test
+        @DisplayName("firestation - Success")
+        void getPersonsStationCoverage_success() throws Exception {
+            StationCoverageDTO stationCoverage = new StationCoverageDTO(
+                    2, 3,
+                    List.of(
+                            new StationCoveragePersonInfoDTO("John", "Doe", "1509 Culver St", "841-874-6512"),
+                            new StationCoveragePersonInfoDTO("Jane", "Doe", "1509 Culver St", "841-874-6513")
+                    )
+            );
+            when(fireStationService.getPersonsStationCoverage(1)).thenReturn(stationCoverage);
+
+            mockMvc.perform(get("/firestation?stationnumber=1"))
+                    .andExpect(status().isOk())
+                    .andExpect(content().json(objectMapper.writeValueAsString(stationCoverage)));
+        }
+
+        @Test
+        @DisplayName("firestation - Not Found")
+        void getPersonsStationCoverage_notFound() throws Exception {
+            when(fireStationService.getPersonsStationCoverage(999)).thenThrow(new NotFoundException("Station number not found"));
+
+            mockMvc.perform(get("/firestation?stationnumber=999"))
+                    .andExpect(status().isNotFound());
+        }
+
+        @Test
+        @DisplayName("flood/stations - Success")
+        void getHomesByStations_success() throws Exception {
+            List<FloodDTO> flood = List.of(
+                    new FloodDTO(1,
+                    Map.of(
+                            "1509 Culver St", List.of(
+                                    new FireFloodPersonInfoDTO("John", "Doe", "841-874-6512", 35, new String[0], new String[0]),
+                                    new FireFloodPersonInfoDTO("Jane", "Doe", "841-874-6513", 34, new String[0], new String[0])
+                            )
+                    )),
+                    new FloodDTO(2,
+                            Map.of(
+                                    "1555 Culver St", List.of(
+                                            new FireFloodPersonInfoDTO("John", "Doe", "841-874-6512", 35, new String[0], new String[0]),
+                                            new FireFloodPersonInfoDTO("Jane", "Doe", "841-874-6513", 34, new String[0], new String[0])
+                                    )
+                            ))
+            );
+            when(fireStationService.getHomesByStations(List.of(1, 2))).thenReturn(flood);
+
+            mockMvc.perform(get("/flood/stations?stations=1,2"))
+                    .andExpect(status().isOk())
+                    .andExpect(content().json(objectMapper.writeValueAsString(flood)));
+        }
+
+        @Test
+        @DisplayName("flood/stations - Not Found")
+        void getHomesByStations_notFound() throws Exception {
+            when(fireStationService.getHomesByStations(List.of(999))).thenThrow(new NotFoundException("Stations numbers not found"));
+
+            mockMvc.perform(get("/flood/stations?stations=999"))
+                    .andExpect(status().isNotFound());
+        }
+
+        @Test
+        @DisplayName("phonealert - Success")
+        void getPersonsPhonesByStation_success() throws Exception {
+            Set<String> phones = Set.of("123-456-7890", "098-765-4321");
+            when(fireStationService.getPersonsPhonesByStation(1)).thenReturn(phones);
+
+            mockMvc.perform(get("/phonealert?firestation=1"))
+                    .andExpect(status().isOk())
+                    .andExpect(content().json(objectMapper.writeValueAsString(phones)));
+        }
+
+        @Test
+        @DisplayName("phonealert - Not Found")
+        void getPersonsPhonesByStation_notFound() throws Exception {
+            when(fireStationService.getPersonsPhonesByStation(999)).thenThrow(new NotFoundException("Station number not found"));
+
+            mockMvc.perform(get("/phonealert?firestation=999"))
+                    .andExpect(status().isNotFound());
+        }
+
+        @Test
+        @DisplayName("fire - Success")
+        void getPersonsAndStationByAddress_success() throws Exception {
+            FireDTO fire = new FireDTO(
+                    1,
+                    List.of(
+                            new FireFloodPersonInfoDTO("John", "Doe", "841-874-6512", 35, new String[0], new String[0]),
+                            new FireFloodPersonInfoDTO("Jane", "Doe", "841-874-6513", 34, new String[0], new String[0])
+                    )
+            );
+            when(fireStationService.getPersonsAndStationByAddress("123 Main St")).thenReturn(fire);
+
+            mockMvc.perform(get("/fire?address=123 Main St"))
+                    .andExpect(status().isOk())
+                    .andExpect(content().json(objectMapper.writeValueAsString(fire)));
+        }
+
+
+        @Test
+        @DisplayName("fire - Not Found")
+        void getPersonsAndStationByAddress_notFound() throws Exception {
+            when(fireStationService.getPersonsAndStationByAddress("Unknown Address")).thenThrow(new NotFoundException("Address not found"));
+
+            mockMvc.perform(get("/fire?address=Unknown Address"))
                     .andExpect(status().isNotFound());
         }
     }
