@@ -1,4 +1,4 @@
-# Projet Etudiant Openclassrooms n°3 – Créer une application avec Spring Boot
+# Projet Etudiant Openclassrooms n°4 – Créer une application avec Spring Boot
 
 <img src="/preview.jpg" alt="Logo de l'application">
 
