@@ -6,6 +6,8 @@
 
 SafetyNet Alerts est une application Spring Boot conçue pour fournir des informations essentielles aux services d'urgence. L'application permet de gérer et d'accéder rapidement à des données telles que les personnes vivant à une adresse donnée, les informations de contact en cas d'urgence, et bien plus encore.
 
+Pour en savoir plus, vous pouvez consulter la page de mon [portfolio](https://perrine-dassonville.dev/portfolio/projet/safetynet-alert) dédiée au projet.
+
 ## Fonctionnalités
 
 - **Gestion des personnes** : Permet d'ajouter, de modifier, de supprimer et de rechercher des informations sur les résidents.
