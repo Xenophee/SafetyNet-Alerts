@@ -30,7 +30,7 @@ Pour en savoir plus, vous pouvez consulter la page de mon [portfolio](https://pe
 1. Clonez le dépôt GitHub :
 
 ```bash
-git clone https://github.com/Xenophee/safetynet-alerts.git
+git clone https://github.com/Xenophee/SafetyNet-Alerts.git
 ```
 
 2. Allez dans le répertoire du projet et construisez-le avec Gradle :
